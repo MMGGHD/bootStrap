@@ -8,6 +8,7 @@ import shop.mtcoding.blogv2.user.User;
 
 @Service
 public class BoardService {
+
     @Autowired
     private BoardRepository boardRepository;
 

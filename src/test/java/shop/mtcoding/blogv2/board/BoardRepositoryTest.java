@@ -21,7 +21,7 @@ public class BoardRepositoryTest {
         board.setContent("내용6"); // 비영속객체
 
         // board의 user_id에 값을 넣기 위해 관계된 User객체하나를 new해야한다.
-        // 넣으면 User객체내에 컬럼명과 일치하는 값을 찾아서 set한다
+        // 넣으면 User객체 내에 컬럼명과 일치하는 값을 찾아서 set한다
         // DB는 객체단위를 넣지 못하기 때문
         // session이 존재하면 sessionUser를 넣으면 된다.
         User user = new User();

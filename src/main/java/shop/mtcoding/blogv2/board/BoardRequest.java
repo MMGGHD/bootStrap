@@ -11,6 +11,7 @@ public class BoardRequest {
     @Getter
     @Setter
     public static class SaveDTO {
+
         private String title;
         private String content;
 
