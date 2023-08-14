@@ -20,4 +20,10 @@ public class UserRequest {
         private String username;
         private String password;
     }
+
+    @Getter
+    @Setter
+    public static class updateDTO {
+        private String password;
+    }
 }

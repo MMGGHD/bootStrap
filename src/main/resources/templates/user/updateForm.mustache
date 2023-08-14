@@ -5,15 +5,17 @@
     <div class="card">
         <div class="card-header"><b>회원수정을 해주세요</b></div>
         <div class="card-body">
-            <form action="#">
+        {{! 현재 로그인한 사람의 정보를 수정할 것이므로 주소에 userId를 넣지 않는다. }}
+        {{! 또한 session에 많은 정보를 담아놓지 않으므로 항상 select받아서 바인딩한다. }}
+            <form action="/user/update" method="post">
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter username" name="username" disabled>
+                    <input type="text" class="form-control" placeholder="Enter username" value="{{user.username}}" required disabled>
                 </div>
                 <div class="mb-3">
-                    <input type="password" class="form-control" placeholder="Enter password" name="password">
+                    <input type="password" class="form-control" placeholder="Enter password" name="password" required>
                 </div>
                 <div class="mb-3">
-                    <input type="email" class="form-control" placeholder="Enter email" name="email" disabled>
+                    <input type="email" class="form-control" placeholder="Enter email" value="{{user.email}}" disabled required>
                 </div>
                 <button type="submit" class="btn btn-primary form-control">회원가입수정</button>
             </form>
