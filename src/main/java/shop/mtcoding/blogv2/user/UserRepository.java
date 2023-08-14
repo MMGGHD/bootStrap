@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-// 
+// UserRepository는 Entity로 User를 관리한다.
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query(value = "select * from user_tb where id = :id", nativeQuery = true)

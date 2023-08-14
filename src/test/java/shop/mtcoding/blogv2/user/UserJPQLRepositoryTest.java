@@ -22,9 +22,8 @@ public class UserJPQLRepositoryTest {
 
     @Test
     public void findByUsername_test() {
-        User user = userJPQLRepository.findByUsername("hello");
+        User user = userJPQLRepository.findByUsername("ssar");
         System.out.println("테스트 : " + user.getEmail());
-
     } // rollback
 
     @Test
