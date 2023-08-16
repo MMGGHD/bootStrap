@@ -1,8 +1,17 @@
 package shop.mtcoding.blogv2.board;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.blogv2.user.User;
 
@@ -43,4 +52,31 @@ public class BoardRepositoryTest {
                 .build();
         boardRepository.save(board);
     }
+
+    @Test
+    public void findAll_test() {
+        System.out.println("조회직전");
+        List<Board> boardList = boardRepository.findAll();
+        System.out.println("조회후 : LAZY");
+        System.out.println(boardList.get(0).getId());
+        System.out.println(boardList.get(0).getUser().getId());
+    }
+
+    @Test
+    public void mFindAll_test() {
+    }
+
+    @Test
+    public void findAll_paging_test() throws JsonProcessingException { // Domain의 Pageable
+        Pageable pageable = PageRequest.of(0, 3, Sort.Direction.DESC, "id");
+        Page<Board> boardPG = boardRepository.findAll(pageable);
+        // 구조를 쉽게 확인하기 위해 JSON으로 변환할것
+        // Jackson라이브러리의 ObjectMapper << 자바 <--> JSON 변환을 해준다. (Getter를 이용한 파싱)
+        ObjectMapper om = new ObjectMapper();
+        // 자바객체를 Json으로 변환하는(직렬화) 메서드
+        String json = om.writeValueAsString(boardPG);
+        // json 데이터를 jsonViewer에 복붙하면 구조를 확인할수 있다.
+        System.out.println(json);
+    }
+
 }

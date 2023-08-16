@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,8 +34,14 @@ public class Board {
     @Column(nullable = true, length = 10000)
     private String content;
 
-    @ManyToOne
-    private User user;
+    // FetchType을 LAZY로 하면 연관객체를 Fetch하지 않겠다.
+    // 이때 연관객체를 직접 찾기 않으면 DB에서 들고오지 않고 연관객체의 PK만 땡겨온다.
+    // 연관객체의 나머지 값들은 null이 된다.
+    // 이때 연관객체의 null값을 직접 찾으려(getter)하면 영속화 하기 위해 조회가 일어난다.
+    // FetchType을 EAGER로 하면 연관객체를 Fetch하겠다. << 어떻게든 DB에서 들고오겠다.
+    // 따라서 EAGER로 조회를 하면 연관객체까지 바로 영속화 된다.
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User user; // 1+N 문제 발생
 
     @CreationTimestamp
     private Timestamp createdAt;

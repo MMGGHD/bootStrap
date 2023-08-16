@@ -16,10 +16,10 @@ public interface UserJPQLRepository extends JpaRepository<User, Integer> {
     @Query(value = "select u from User u where u.id = :id")
     Optional<User> mFindById(@Param("id") Integer id);
 
+    // Insert, Update, Delete는 지원하지 않는다. (이들은 NativeQuery를 써야한다.)
     @Query(value = "select u from User u where u.username = :username")
     User findByUsername(@Param("username") String username);
 
-    // Insert, Update, Delete는 지원하지 않는다. (이들은 NativeQuery를 써야한다.)
     // @Modifying << executeUpdate와 같은뜻 (executeUpdate와 executeQuery를 구분하지 못하므로)
     @Modifying
     @Query(value = "insert into user_tb(created_at, email, password, username) values(now(), :email, :password, :username)", nativeQuery = true)
