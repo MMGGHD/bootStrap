@@ -3,6 +3,8 @@ package shop.mtcoding.blogv2.board;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -23,6 +25,9 @@ public class BoardRepositoryTest {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private EntityManager em;
 
     @Test
     public void save_test() {
@@ -86,5 +91,13 @@ public class BoardRepositoryTest {
         if (boardOP.isPresent()) { // boardOP가 존재한다면 True
             System.out.println("테스트 : board가 있습니다.");
         }
+    }
+
+    @Test
+    public void update_test() {
+        Board board = boardRepository.findById(3).get();
+        board.setTitle("제목3변경");
+        board.setContent("내용3변경");
+        em.flush();
     }
 }

@@ -3,6 +3,7 @@ package shop.mtcoding.blogv2.board;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,10 +14,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import shop.mtcoding.blogv2.board.BoardRequest.UpdateDTO;
+import shop.mtcoding.blogv2.user.User;
+
 @Controller
 public class BoardController {
     @Autowired
     private BoardService boardService;
+
+    @Autowired
+    private HttpSession session;
 
     @GetMapping("/")
     public String home(@RequestParam(defaultValue = "0") Integer page, HttpServletRequest request) {
@@ -31,6 +38,11 @@ public class BoardController {
 
     @GetMapping("/board/saveForm")
     public String saveForm() {
+
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser == null) {
+            return "redirect:/loginForm";
+        }
         return "board/saveForm";
     }
 
@@ -41,7 +53,8 @@ public class BoardController {
     // 5. view or data 응답
     @PostMapping("/board/save")
     public String save(BoardRequest.SaveDTO saveDTO) {
-        boardService.글쓰기(saveDTO, 1);
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        boardService.글쓰기(saveDTO, sessionUser.getId());
         return "redirect:/";
     }
 
@@ -51,5 +64,24 @@ public class BoardController {
         Board board = boardService.상세보기(id);
         model.addAttribute("board", board);
         return "board/detail";
+    }
+
+    @GetMapping("/board/{id}/updateForm")
+    public String updateForm(@PathVariable Integer id, Model model) {
+        Board board = boardService.상세보기(id);
+        model.addAttribute("board", board);
+        return "board/updateForm";
+    }
+
+    @PostMapping("/board/{id}/update")
+    public String update(@PathVariable Integer id, UpdateDTO updateDTO) {
+        boardService.글수정(updateDTO, id);
+        return "redirect:/board/" + id;
+    }
+
+    @PostMapping("/board/{id}/delete")
+    public String update(@PathVariable Integer id) {
+        boardService.글삭제(id);
+        return "redirect:/";
     }
 }
