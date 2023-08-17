@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -41,5 +43,13 @@ public class BoardController {
     public String save(BoardRequest.SaveDTO saveDTO) {
         boardService.글쓰기(saveDTO, 1);
         return "redirect:/";
+    }
+
+    @GetMapping("/board/{id}")
+    // HttpServletRequest 대신에 Model에 담아도됨
+    public String detail(@PathVariable Integer id, Model model) {
+        Board board = boardService.상세보기(id);
+        model.addAttribute("board", board);
+        return "board/detail";
     }
 }

@@ -32,4 +32,8 @@ public class BoardService {
         Pageable pageable = PageRequest.of(page, 3, Sort.Direction.DESC, "id");
         return boardRepository.findAll(pageable);
     }
+
+    public Board 상세보기(Integer id) {
+        return boardRepository.findById(id).get();
+    }
 }
