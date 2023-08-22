@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -56,9 +57,12 @@ public class Board {
 
     // ManyToOne의 FetchType은 EAGER전략이 Default
     // OneToMany의 FetchType은 LAZY전략이 Default
-    // @JsonIgnoreProperties ("a", "b","c") << 선택한 속성만 찾지 마라
+    // @JsonIgnoreProperties ("a", "b","c") << Json직렬화시 선택한 속성 빼고 찾기
+    // 댓글의 FK로 보드가 잡혀있어 댓글이있는 상태로 보드를 삭제하면 오류가 발생한다.
+    // cascade << 영속성 전이 관리해주는 어노테이션, 참조개체를 찾아서 모두 삭제할수 있다.
+    // 댓글만 남기려면 cascade안쓰고 게시글 조회후 참조값을 모두 null값으로 수정한 후 삭제한다.
     @JsonIgnoreProperties({ "board" })
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Reply> replies = new ArrayList<Reply>();
 
     @CreationTimestamp
