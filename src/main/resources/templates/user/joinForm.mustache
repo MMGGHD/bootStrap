@@ -4,10 +4,10 @@
     <div class="card">
         <div class="card-header"><b>회원가입을 해주세요</b></div>
         <div class="card-body">
-            <form action="/join" method="post">
+            <form>
                 <div class="mb-3">
                     <input type="text" id="username" class="form-control" placeholder="Enter username" name="username">
-                    <button type="button" class="btn btn-warning">중복체크</button>
+                    <button type="button" class="btn btn-warning" onclick="checkUser()">중복체크</button>
                 </div>
                 <div class="mb-3">
                     <input type="password" class="form-control" placeholder="Enter password" name="password" >
@@ -18,6 +18,34 @@
                 <button id="btnJoin" type="submit" class="btn btn-primary form-control">회원가입</button>
             </form>
         </div>
+        <script>
+async function checkUser(){
+
+// requestBody << Body데이터 객체를 Json으로만들어 fetch를 통해 보낼 것임
+let requestBody = {
+    username : document.querySelector("#username").value
+};
+
+console.log(requestBody);
+
+let response = await fetch("/api/user/check",{
+    method : "post",
+    headers : {
+        "Content-Type":"application/json"
+    },
+    body : JSON.stringify(requestBody)
+});
+
+let responseBody = await response.json();
+console.log(responseBody);
+
+if(responseBody.success){
+    alert("사용가능한 유저네임입니다")
+}else{
+    alert(responseBody.data);
+}
+}
+</script>
     </div>
 </div>
 {{> layout/footer}}

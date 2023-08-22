@@ -1,9 +1,13 @@
 package shop.mtcoding.blogv2.user;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import shop.mtcoding.blogv2._core.error.ex.MyApiException;
+import shop.mtcoding.blogv2._core.util.ApiUtil;
 import shop.mtcoding.blogv2.user.UserRequest.JoinDTO;
 import shop.mtcoding.blogv2.user.UserRequest.LoginDTO;
 import shop.mtcoding.blogv2.user.UserRequest.updateDTO;
@@ -31,12 +35,12 @@ public class UserService {
     }
 
     public User 로그인(LoginDTO loginDTO) {
-        User user = userRepository.findByUsername(loginDTO.getUsername());
-        if (user == null) { // username이 존재하지 않음
+        Optional<User> userOP = userRepository.findByUsername(loginDTO.getUsername());
+        if (userOP.isEmpty()) { // username이 존재하지 않음
             return null;
         } else { // username 존재함
-            if (user.getPassword().equals(loginDTO.getPassword())) {
-                return user;
+            if (userOP.get().getPassword().equals(loginDTO.getPassword())) {
+                return userOP.get();
             } else {
                 return null;
             }
@@ -57,4 +61,12 @@ public class UserService {
         return null;
     }
 
+    public String 유저네임중복확인(String username) {
+        Optional<User> userOP = userRepository.findByUsername(username);
+        System.out.println("user 객체 : " + userOP);
+        if (userOP.isEmpty()) {
+            return "사용가능한 닉네임 입니다.";
+        }
+        throw new MyApiException("중복된 닉네임 입니다.");
+    }
 }
