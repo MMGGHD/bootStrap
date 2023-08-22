@@ -1,7 +1,10 @@
 package shop.mtcoding.blogv2.board;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+
+import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import shop.mtcoding.blogv2._core.error.ex.MyException;
 import shop.mtcoding.blogv2.board.BoardRequest.UpdateDTO;
 import shop.mtcoding.blogv2.user.User;
 
@@ -36,7 +40,13 @@ public class BoardService {
     }
 
     public Board 상세보기(Integer id) {
-        return boardRepository.findById(id).get();
+        Optional<Board> boardOP = boardRepository.mFindByIdJoinUserAndReplies(id);
+        if (boardOP.isPresent()) {
+            return boardOP.get();
+        } else {
+            // 상세보기는 Board(View)를 return하기 때문에 MyException으로 alert창
+            throw new MyException(id + "번 페이지를 찾을수 없어요");
+        }
     }
 
     @Transactional
@@ -49,11 +59,17 @@ public class BoardService {
             board.setTitle(updateDTO.getTitle());
             board.setContent(updateDTO.getContent());
             boardRepository.save(board); // 있어도되고 없어도됨 (@Transactional flush)
+        } else {
+            throw new MyException(id + "번 페이지를 찾을수 없어요");
         }
     }
 
     @Transactional
     public void 글삭제(Integer id) {
-        boardRepository.deleteById(id);
+        try {
+            boardRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new MyException(id + "번 페이지를 찾을수 없어요");
+        }
     }
 }

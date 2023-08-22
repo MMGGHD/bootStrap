@@ -23,32 +23,61 @@
     <div class="card mt-3">
         <!-- 댓글등록 -->
         <div class="card-body">
-            <form action="#">
-                <input type="hidden" name="boardId">
-                <textarea class="form-control" rows="2" name="comment"></textarea>
+            <form>
+                <input type="hidden" id="boardId" value="{{board.id}}">
+                <textarea class="form-control" rows="2" id="comment"></textarea>
                 <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-outline-primary mt-1">댓글등록</button>
+                    <button type="button" class="btn btn-outline-primary mt-1" onclick="saveReply()">댓글등록</button>
                 </div>
             </form>
         </div>
+<script>
+async function saveReply(){
 
+    // requestBody << Body데이터 객체를 Json으로만들어 fetch를 통해 보낼 것임
+    let requestBody = {
+        boardId : document.querySelector("#boardId").value,
+        comment : document.querySelector("#comment").value
+    };
+    
+    console.log(requestBody);
+
+    let response = await fetch("/api/reply/save",{
+        method : "post",
+        headers : {
+            "Content-Type":"application/json"
+        },
+        body : JSON.stringify(requestBody)
+    });
+
+    let responseBody = await response.json();
+    console.log(responseBody);
+
+    if(responseBody.success){
+        location.reload();
+    }else{
+        alert(responseBody.data);
+    }
+}
+</script>
         <!-- 댓글목록 -->
         <div class="card-footer">
             <b>댓글리스트</b>
         </div>
         <div class="list-group">
-            <!-- 댓글아이템 -->
-            <div class="list-group-item d-flex justify-content-between align-items-center">
+            {{#board.replies}}
+            <!-- 댓글아이템 -->        
+             <div class="list-group-item d-flex justify-content-between align-items-center">
                 <div class="d-flex">
-                    <div class="px-1 me-1 bg-primary text-white rounded">ssar</div>
-                    <div>댓글1</div>
+                    <div class="px-1 me-1 bg-primary text-white rounded">{{user.username}}</div>
+                    <div>{{comment}}</div>
                 </div>
-                <form action="#">
+                <form action="/reply/{{id}}/delete" method="post">
                     <button class="btn">🗑</button>
                 </form>
             </div>
+            {{/board.replies}}
         </div>
     </div>
 </div>
-
 {{> layout/footer}}

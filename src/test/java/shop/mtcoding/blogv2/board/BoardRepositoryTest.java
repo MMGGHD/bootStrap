@@ -70,6 +70,7 @@ public class BoardRepositoryTest {
 
     @Test
     public void mFindAll_test() {
+        boardRepository.findAll();
     }
 
     @Test
@@ -99,5 +100,11 @@ public class BoardRepositoryTest {
         board.setTitle("제목3변경");
         board.setContent("내용3변경");
         em.flush();
+    }
+
+    @Test
+    public void findByIdJoinUserAndReplies_test() {
+        Optional<Board> board = boardRepository.mFindByIdJoinUserAndReplies(1);
+        System.out.println(board);
     }
 }

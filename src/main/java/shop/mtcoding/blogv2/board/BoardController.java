@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import shop.mtcoding.blogv2._core.util.Script;
 import shop.mtcoding.blogv2.board.BoardRequest.UpdateDTO;
 import shop.mtcoding.blogv2.user.User;
 
@@ -21,6 +23,9 @@ import shop.mtcoding.blogv2.user.User;
 public class BoardController {
     @Autowired
     private BoardService boardService;
+
+    @Autowired
+    private BoardRepository boardRepository;
 
     @Autowired
     private HttpSession session;
@@ -80,8 +85,8 @@ public class BoardController {
     }
 
     @PostMapping("/board/{id}/delete")
-    public String update(@PathVariable Integer id) {
-        boardService.글삭제(id);
-        return "redirect:/";
+    public @ResponseBody String update(@PathVariable Integer id) {
+        return Script.href("/");
     }
+
 }

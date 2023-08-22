@@ -1,9 +1,11 @@
 package shop.mtcoding.blogv2.board;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 // 사용법 : JpaRepository<(모델 타입),(PK의 타입)> 
@@ -26,4 +28,10 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     // fetch << 연관객체안에 들어가서 있는 컬럼을 모두 뽑아주는 키워드.
     @Query("select b from Board b join fetch b.user")
     List<Board> mFindAll();
+
+    @Query("select b from Board b join fetch b.user where b.id = :id")
+    Board mFindById(@Param("id") Integer id);
+
+    @Query("select b from Board b left join fetch b.replies r left join fetch r.user ru where b.id = :id")
+    Optional<Board> mFindByIdJoinUserAndReplies(@Param("id") Integer id);
 }
