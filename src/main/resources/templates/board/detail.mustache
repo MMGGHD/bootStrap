@@ -32,6 +32,20 @@
             </form>
         </div>
 <script>
+async function deleteReply(id){
+    let response = await fetch(`/api/reply/${id}/delete`,{
+        method: "delete"
+    });
+
+    // 받은데이터(Json)에 .json() 메서드면 받은데이터를 JS오브젝트로 만든다.
+    let responseBody = await response.json();
+    if(responseBody.success){    // success가 ture라면
+    location.reload();
+    }else{
+        alert(responseBody.data);
+    }
+}
+
 async function saveReply(){
 
     // requestBody << Body데이터 객체를 Json으로만들어 fetch를 통해 보낼 것임
@@ -72,8 +86,8 @@ async function saveReply(){
                     <div class="px-1 me-1 bg-primary text-white rounded">{{user.username}}</div>
                     <div>{{comment}}</div>
                 </div>
-                <form action="/reply/{{id}}/delete" method="post">
-                    <button class="btn">🗑</button>
+                <form>
+                    <button type="button" class="btn" onclick="deleteReply('{{id}}')">🗑</button>
                 </form>
             </div>
             {{/board.replies}}
