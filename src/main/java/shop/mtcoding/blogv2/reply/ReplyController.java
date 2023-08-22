@@ -18,6 +18,9 @@ public class ReplyController {
     @Autowired
     private HttpSession session;
 
+    @Autowired
+    private ReplyService replyService;
+
     @PostMapping("/api/reply/save")
     public @ResponseBody ApiUtil<String> save(@RequestBody ReplyRequest.SaveDTO saveDTO) {
         System.out.println("boardId : " + saveDTO.getBoardId());
@@ -27,6 +30,7 @@ public class ReplyController {
             throw new MyApiException("인증되지 않았습니다.");
             // return new ApiUtil<String>(false, "인증되지 않았습니다."); << MyApiException 던진것과 같다.
         }
+        replyService.댓글쓰기(saveDTO, sessionUser.getId());
         return new ApiUtil<String>(true, "댓글쓰기 성공");
     }
 
