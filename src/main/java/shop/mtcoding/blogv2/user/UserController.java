@@ -34,6 +34,7 @@ public class UserController {
     public String join(UserRequest.JoinDTO joinDTO) {
         // joinDTO를 이용, Service에서 Repository연결
         // UserController는 Service에 의존한다. << 의존성 주입 해주어야함
+
         userService.회원가입(joinDTO);
         return "user/loginForm"; // 이때 persist 초기화(Clear())됨
     }
