@@ -1,5 +1,7 @@
 package shop.mtcoding.blogv2.user;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +15,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     // 얘는 쓸모 있음
     @Query(value = "select * from user_tb where username = :username", nativeQuery = true)
-    User findByUsername(@Param("username") String username);
+    Optional<User> findByUsername(@Param("username") String username);
 
     // 쿼리메소드(쿼리 문자열이 없어도 findBy와 And 키워드를 이용, 자동으로 쿼리를 만들어서 해줌)
     // User findByUsernam(@Param("username") String username);

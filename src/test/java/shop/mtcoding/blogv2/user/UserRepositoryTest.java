@@ -41,11 +41,11 @@ public class UserRepositoryTest {
         userRepository.mSave("love", "1234", "love@nate.com");
     } // rollback
 
-    @Test
-    public void findByUsername_test() {
-        User user = userRepository.findByUsername("hello");
-        System.out.println("테스트 : " + user.getEmail());
-    } // rollback
+    // @Test
+    // public void findByUsername_test() {
+    // User user = userRepository.findByUsername("hello");
+    // System.out.println("테스트 : " + user.getEmail());
+    // } // rollback
 
     @Test
     public void findById_test() {

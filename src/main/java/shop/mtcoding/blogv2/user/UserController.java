@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import shop.mtcoding.blogv2._core.util.ApiUtil;
 import shop.mtcoding.blogv2._core.util.Script;
+import shop.mtcoding.blogv2.user.UserRequest.CheckDTO;
 
 // Controller의 역할 << 유효성 검사와 요청에 따른 응답 
 @Controller
@@ -74,5 +77,12 @@ public class UserController {
         // 3. 바뀐 유저정보로 세션을 동기화한다.
         session.setAttribute("sessionUser", user);
         return "redirect:/";
+    }
+
+    @PostMapping("/api/user/check")
+    public @ResponseBody ApiUtil<String> check(@RequestBody CheckDTO checkDTO) {
+        System.out.println("checkDTO: " + checkDTO.getUsername());
+        String message = userService.유저네임중복확인(checkDTO.getUsername());
+        return new ApiUtil<String>(true, message);
     }
 }

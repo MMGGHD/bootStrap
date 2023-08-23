@@ -26,4 +26,10 @@ public class UserRequest {
     public static class updateDTO {
         private String password;
     }
+    
+    @Getter
+    @Setter
+    public static class CheckDTO {
+        private String username;
+    }
 }
