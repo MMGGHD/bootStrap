@@ -1,26 +1,99 @@
 {{> layout/header}}
-
+<style>
+  .circle_avarta {
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+  }
+</style>
 <div class="container p-5">
-
-    <div class="card">
-        <div class="card-header"><b>회원수정을 해주세요</b></div>
-        <div class="card-body">
-        {{! 현재 로그인한 사람의 정보를 수정할 것이므로 주소에 userId를 넣지 않는다. }}
-        {{! 또한 session에 많은 정보를 담아놓지 않으므로 항상 select받아서 바인딩한다. }}
-            <form action="/user/update" method="post">
-                <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter username" value="{{user.username}}" required disabled>
-                </div>
-                <div class="mb-3">
-                    <input type="password" class="form-control" placeholder="Enter password" name="password" required>
-                </div>
-                <div class="mb-3">
-                    <input type="email" class="form-control" placeholder="Enter email" value="{{user.email}}" disabled required>
-                </div>
-                <button type="submit" class="btn btn-primary form-control">회원가입수정</button>
-            </form>
-        </div>
+  <div class="card">
+    <div class="card-header"><b>회원수정을 해주세요</b></div>
+    <div class="card-header d-flex justify-content-center">
+      <img id="preview" class="circle_avarta" src="/images/{{ user.picUrl }}"
     </div>
+  </div>
+    <div class="card-body">
+      {{! 현재 로그인한 사람의 정보를 수정할 것이므로 주소에 userId를 넣지 않는다. }}
+      {{! 또한 session에 많은 정보를 담아놓지 않으므로 항상 select받아서 바인딩한다. }}
+      <form action="/user/update" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter username"
+            value="{{ user.username }}"
+            required
+            disabled
+          />
+        </div>
+        <div class="mb-3">
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Enter password"
+            name="password"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Enter email"
+            value="{{ user.email }}"
+            disabled
+            required
+          />
+        </div>
+        <div class="mb-3">
+            <input
+              type="file"
+              class="form-control"
+              placeholder="Enter pic"
+              name="pic"
+              onchange="changePic(event)"
+              value="{{ user.picUrl }}"
+              required
+            />
+          </div>
+        <button type="submit" class="btn btn-primary form-control">
+          회원가입수정
+        </button>
+      </form>
+    </div>
+  </div>
 </div>
 
+<script>
+    function changePic(e1){
+
+        // 자바스크립트에서 실행순서
+
+        // 1. event객체 안에서 file객체를 찾아낸다.
+        let f = e1.srcElement.files[0];
+
+        // 2. HDD로부터 파일을 받기위해 파일리더(버퍼)를 생성
+        let reader = new FileReader();
+
+        // 4. reader의 작업이 끝나면 .onload() 함수를 실행함
+        // 어떤 작업이 끝났을때 자동으로 실행되는 함수를 '콜백함수(메서드)'라고함
+        // 
+        reader.onload = function(e2){
+        console.log(e2);
+            // 5.  
+            let previewEl = document.querySelector("#preview");
+            
+            previewEl.setAttribute("src", e2.target.result);
+        }
+
+        // 3. 파일 리더로 부터 파일 읽기
+        // 읽기작업은 시간이 오래걸림 << 비동기 방식으로 실행됨 (이벤트 루프로 전달됨)
+        // 코드를 다 읽고 메인이 할일이 없어지면 읽기 함수를 완료함
+        // 끝나면 onload() 함수를 실행함
+        // 어떤 작업이 끝났을때 자동으로 실행되는 함수를 '콜백함수(메서드)'라고함
+        reader.readAsDataURL(f); 
+    
+    }
+</script>
 {{> layout/footer}}

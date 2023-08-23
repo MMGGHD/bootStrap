@@ -29,6 +29,7 @@ public class UserRequest {
     @Setter
     public static class updateDTO {
         private String password;
+        private MultipartFile pic;
     }
 
     @Getter

@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import shop.mtcoding.blogv2._core.error.ex.MyApiException;
 import shop.mtcoding.blogv2._core.error.ex.MyException;
-import shop.mtcoding.blogv2._core.util.ApiUtil;
 import shop.mtcoding.blogv2._core.vo.MyPath;
 import shop.mtcoding.blogv2.user.UserRequest.JoinDTO;
 import shop.mtcoding.blogv2.user.UserRequest.LoginDTO;
@@ -80,12 +79,32 @@ public class UserService {
 
     @Transactional // << 자동 flush
     public User 회원수정(updateDTO updateDTO, Integer id) {
+
+        UUID uuid = UUID.randomUUID();
+        String fileName = uuid + "_" + updateDTO.getPic().getOriginalFilename();
+        System.out.println("fileName : " + fileName);
+        // 자바에서 받은 파일을 저장할 경로를 상대경로로 지정(IMG_PATH의 ./는 현재위치를 의미)
+        // 현재 경로 Desktop/WS/workspace/project/blogV2
+        // 배포 시 해당 실행 파일 경로에 images 폴더가 필요함
+        Path filePath = Paths.get(MyPath.IMG_PATH + fileName);
+
+        System.out.println("filePath : " + filePath);
+        // 파일 쓰기 write(경로, 바이트파일)
+        try {
+            Files.write(filePath, updateDTO.getPic().getBytes());
+        } catch (Exception e) {
+            throw new MyException(e.getMessage());
+        }
+
         // 1. 조회(영속화)
         User user = userRepository.findById(id).get();
         // 2. 변경
         user.setPassword(updateDTO.getPassword());
+        user.setPicUrl(fileName);
+        System.out.println("user: " + user);
+
         // 3. flush
-        return null;
+        return user;
     }
 
     public String 유저네임중복확인(String username) {

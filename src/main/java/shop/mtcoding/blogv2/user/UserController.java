@@ -73,8 +73,12 @@ public class UserController {
     public String update(UserRequest.updateDTO updateDTO) {
         // 1. 수정할 세션을 가져온다.
         User sessioUser = (User) session.getAttribute("sessionUser");
+        System.out.println("update sessioUser : " + sessioUser);
         // 2. 서비스에서 수정된 유저 객체를 받는다.
+        System.out.println("updateDTO getPassword: " + updateDTO.getPassword());
+        System.out.println("updateDTO getPic: " + updateDTO.getPic());
         User user = userService.회원수정(updateDTO, sessioUser.getId());
+        System.out.println("회원수정 유저 user : " + user);
         // 3. 바뀐 유저정보로 세션을 동기화한다.
         session.setAttribute("sessionUser", user);
         return "redirect:/";
