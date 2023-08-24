@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 
 import shop.mtcoding.blogv2._core.error.ex.MyApiException;
 import shop.mtcoding.blogv2.board.Board;
-import shop.mtcoding.blogv2.board.BoardRequest.SaveDTO;
+import shop.mtcoding.blogv2.board.BoardRepository;
+import shop.mtcoding.blogv2.reply.ReplyRequest.SaveDTO;
 import shop.mtcoding.blogv2.user.User;
 
 @Service
@@ -18,7 +19,10 @@ public class ReplyService {
     @Autowired
     private ReplyRepository replyRepository;
 
-    public void 댓글쓰기(ReplyRequest.SaveDTO saveDTO, Integer sessionid) {
+    @Autowired
+    private BoardRepository boardRepository;
+
+    public void 댓글쓰기(SaveDTO saveDTO, Integer sessionid) {
         // insert into reply_tb(comment, board_id, user_id) values(?,?,?)
 
         // 연관객체의 FK값만 가지고 온 다음 Reply을 Build할때 사용

@@ -73,6 +73,8 @@
         // 1. event객체 안에서 file객체를 찾아낸다.
         let f = e1.srcElement.files[0];
 
+        console.log(e1);
+        console.log(f);
         // 2. HDD로부터 파일을 받기위해 파일리더(버퍼)를 생성
         let reader = new FileReader();
 

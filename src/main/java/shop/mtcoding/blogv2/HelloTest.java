@@ -37,7 +37,8 @@ class MyRepository {
 
 public class HelloTest {
     public static void main(String[] args) {
-        MyController myController = new MyController();
-        myController.home(false);
+        String str1 = "programing";
+        String str2 = "programing";
+        System.out.println(str1 == str2);
     }
 }

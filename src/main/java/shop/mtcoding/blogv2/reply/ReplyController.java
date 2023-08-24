@@ -25,8 +25,6 @@ public class ReplyController {
 
     @PostMapping("/api/reply/save")
     public @ResponseBody ApiUtil<String> save(@RequestBody ReplyRequest.SaveDTO saveDTO) {
-        System.out.println("boardId : " + saveDTO.getBoardId());
-        System.out.println("Comment : " + saveDTO.getComment());
         User sessionUser = (User) session.getAttribute("sessionUser");
         if (sessionUser == null) {
             throw new MyApiException("인증되지 않았습니다.");
