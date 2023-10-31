@@ -1,78 +1,188 @@
-{{> layout/header}}
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-<div class="container p-5">
-  <div class="card">
-    <div class="card-header"><b>회원가입을 해주세요</b></div>
-    <div class="card-body">
-      <form action="/join" method="post" enctype="multipart/form-data">
-        <div class="mb-3">
-          <input
-            type="text"
-            id="username"
-            class="form-control"
-            placeholder="Enter username"
-            name="username"
-          />
-          <button type="button" class="btn btn-warning" onclick="checkUser()">
-            중복체크
-          </button>
-        </div>
-        <div class="mb-3">
-          <input
-            type="password"
-            class="form-control"
-            placeholder="Enter password"
-            name="password"
-          />
-        </div>
-        <div class="mb-3">
-          <input
-            type="email"
-            class="form-control"
-            placeholder="Enter email"
-            name="email"
-          />
-        </div>
-        <div class="mb-3">
-          <input
-            type="file"
-            class="form-control"
-            placeholder="Enter pic"
-            name="pic"
-          />
-        </div>
-        <button id="btnJoin" type="submit" class="btn btn-primary form-control">
-          회원가입
-        </button>
-      </form>
-    </div>
-    <script>
-      async function checkUser() {
-        // requestBody << Body데이터 객체를 Json으로만들어 fetch를 통해 보낼 것임
-        let requestBody = {
-          username: document.querySelector("#username").value,
-        };
+	<title>Light Bootstrap Dashboard by Creative Tim</title>
 
-        console.log(requestBody);
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
 
-        let response = await fetch("/api/user/check", {
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestBody),
-        });
 
-        let responseBody = await response.json();
-        console.log(responseBody);
+    <!-- Bootstrap core CSS     -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
 
-        if (responseBody.success) {
-          alert("사용가능한 유저네임입니다");
-        } else {
-          alert(responseBody.data);
+    <!-- Animation library for notifications   -->
+    <link href="assets/css/animate.min.css" rel="stylesheet"/>
+
+    <!--  Light Bootstrap Table core CSS    -->
+    <link href="assets/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet"/>
+
+
+    <!--  CSS for Demo Purpose, don't include it in your project     -->
+    <link href="assets/css/demo.css" rel="stylesheet" />
+
+
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
+   <style>
+        .container-wCenter {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width : 90%;
+            height: 110%;
         }
-      }
-    </script>
-  </div>
-</div>
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg">
+
+    <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
+
+
+    	<div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="" class="simple-text">
+                   마켓 컬리
+                </a>
+            </div>
+
+            <ul class="nav">
+                <li>
+                    <a href="dashboard.html">
+                        <i class="pe-7s-graph"></i>
+                        <p>회원 가입</p>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="user.html">
+                        <i class="pe-7s-user"></i>
+                        <p>로그인</p>
+                    </a>
+                </li>
+            </ul>
+    	</div>
+    </div>
+
+   
+    <div class="main-panel">
+		<nav class="navbar navbar-default navbar-fixed">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">로그인이 필요한 서비스 입니다.</a>
+                </div>
+                <div class="collapse navbar-collapse">
+
+                </div>
+            </div>
+        </nav>
+
+
+    <div class="container-wCenter">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Write Profile</h4>
+                            </div>
+                            <div class="content">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Company name</label>
+                                                <input type="text" class="form-control" placeholder="Company name" value="" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>user ID</label>
+                                                <input type="text" class="form-control" placeholder="user ID" value="" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Email Address</label>
+                                                <input type="text" class="form-control" placeholder="Email Address" value="" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Password</label>
+                                                <input type="password" class="form-control" placeholder="Password" value="" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Password check</label>
+                                                <input type="password" class="form-control" placeholder="Password check" value="" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Address</label>
+                                                <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>City</label>
+                                                <input type="text" class="form-control" placeholder="City" value="Mike">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Country</label>
+                                                <input type="text" class="form-control" placeholder="Country" value="Andrew">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Postal Code</label>
+                                                <input type="number" class="form-control" placeholder="ZIP Code">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>About Me</label>
+                                                <textarea rows="5" class="form-control" placeholder="Here can be your description" value="Mike">Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-info btn-fill pull-right">Update Profile</button>
+                                    <div class="clearfix"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+    </div>
 {{> layout/footer}}
