@@ -38,7 +38,7 @@ public class BoardController {
         request.setAttribute("boardPG", boardPG);
         request.setAttribute("prevPage", boardPG.getNumber() - 1);
         request.setAttribute("nextPage", boardPG.getNumber() + 1);
-        return "index";
+        return "sellerMain";
     }
 
     @GetMapping("/board/saveForm")
