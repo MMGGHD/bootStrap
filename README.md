@@ -69,3 +69,30 @@ create table reply_tb (
     constraint fk_reply_user_id foreign key (user_id) references user_tb (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 ```
+
+
+
+<관리자p>
+
+[side Bar]
+- 판매 요청 목록
+- 1대1 문의 목록
+- 공지목록(공지 작성)
+[nav Bar]
+- title
+- 계정 (account)
+- 드롭다운 페이지(sideBar와 동일)
+- 로그아웃
+
+<판매자p>
+
+[side Bar]
+- 판매 관리
+- 상품 관리(판매 요청)
+- 상품 문의 관리
+- 공지 목록
+[nav Bar]
+- title
+- 계정 (account)
+- 드롭다운 페이지(sideBar와 동일)
+- 로그아웃
